@@ -10,8 +10,6 @@ Globals:
   Function:
     Timeout: 3
 
-# SAM에서는 SAM에서 생성한 S3에만 이벤트를 붙일 수 있음
-
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
@@ -27,6 +25,22 @@ Resources:
           Properties:
             Path: /hello
             Method: get
+
+# SAM에서는 SAM에서 생성한 S3에만 이벤트를 붙일 수 있음
+# S3 bucket
+S3UploadBucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    CorsConfiguration:
+      CorsRules:
+      - AllowedHeaders:
+          - "*"
+        AllowedMethods:
+          - GET
+          - PUT
+          - HEAD
+        AllowedOrigins:
+          - "*"
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
