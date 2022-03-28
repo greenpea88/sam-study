@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "sam-cognito"
+version = "0.1.0"
+description = ""
+authors = ["greenpea88 <green_pea88@naver.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aws = "^0.2.5"
+boto3 = "^1.21.27"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

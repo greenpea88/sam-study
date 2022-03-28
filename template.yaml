@@ -55,3 +55,6 @@ Outputs:
   HelloWorldFunctionIamRole:
     Description: "Implicit IAM Role created for Hello World function"
     Value: !GetAtt HelloWorldFunctionRole.Arn
+  S3UploadBucketName:
+    Description: "S3 bucket for img uploads"
+    Value: !Ref 'S3UploadBucket'

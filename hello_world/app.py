@@ -1,37 +1,29 @@
 import json
-
+import boto3
+from random import random
+import os
+from botocore.config import Config
 # import requests
 
 
 def lambda_handler(event, context):
-    """Sample pure Lambda function
+    # S3 client 생성
+    # s3 = boto3.client('s3')
+    s3 = boto3.client('s3', config=Config(signature_version='s3v4'), region_name='ap-northeast-2')
+    img_id = int(random() * 10000000)
 
-    Parameters
-    ----------
-    event: dict, required
-        API Gateway Lambda Proxy Input Format
-
-        Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
-
-    context: object, required
-        Lambda Context runtime methods and attributes
-
-        Context doc: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
-
-    Returns
-    ------
-    API Gateway Lambda Proxy Output Format: dict
-
-        Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
-    """
-
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
-
-    #     raise e
+    s3Params = {
+        'Bucket': os.environ.get("UPLOAD_BUCKET"),
+        'Key': '{}.jpg'.format(img_id),
+        'ExpiresIn': os.environ.get("URL_EXPIRE_SECONDS"),
+    }
+    # presigned_post = s3.generate_presigned_post(ClientMethod='POST', Params=s3Params)
+    presigned_post = s3.generate_presigned_post(
+        Bucket=os.environ.get("UPLOAD_BUCKET"),
+        Key='{}.jpg'.format(img_id),
+        ExpiresIn=os.environ.get("URL_EXPIRE_SECONDS")
+    )
+    print(presigned_post)
 
     return {
         "statusCode": 200,
